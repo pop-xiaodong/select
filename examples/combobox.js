@@ -33,6 +33,12 @@ class Demo extends React.Component {
       disabled: !this.state.disabled,
     });
   }
+  
+  renderMenu = () => {
+    return (
+      <div>123</div>
+    );
+  }
 
   render() {
     return (<div>
@@ -53,6 +59,7 @@ class Demo extends React.Component {
           value={this.state.value}
           combobox
           backfill
+          renderMenu={this.renderMenu}
         >
           <Option value="jack">
             <b style={{ color: 'red' }}>jack</b>

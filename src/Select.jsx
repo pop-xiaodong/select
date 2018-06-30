@@ -1308,6 +1308,7 @@ class Select extends React.Component {
         onPopupScroll={props.onPopupScroll}
         showAction={props.showAction}
         ref={this.saveSelectTriggerRef}
+        renderMenu={props.renderMenu}
       >
         <div
           style={props.style}

@@ -88,7 +88,10 @@ export default class SelectTrigger extends React.Component {
         ref={this.saveDropdownMenuRef}
         {...newProps}
         prefixCls={this.getDropdownPrefixCls()}
-        onMenuSelect={props.onMenuSelect}
+        onMenuSelect={({ ...p }) => {
+          console.log(p);
+          props.onMenuSelect({ ...p });
+        }}
         onMenuDeselect={props.onMenuDeselect}
         onPopupScroll={props.onPopupScroll}
         value={props.value}
@@ -131,13 +134,45 @@ export default class SelectTrigger extends React.Component {
       [dropdownClassName]: !!dropdownClassName,
       [`${dropdownPrefixCls}--${multiple ? 'multiple' : 'single'}`]: 1,
     };
-    const popupElement = this.getDropdownElement({
-      menuItems: props.options,
-      onPopupFocus,
-      multiple,
-      inputValue,
-      visible,
-    });
+    let popupElement;
+    if (this.props.renderMenu) {
+      // const props = this.props;
+      // return (
+      //   <DropdownMenu
+      //     ref={this.saveDropdownMenuRef}
+      //     {...newProps}
+      //     prefixCls={this.getDropdownPrefixCls()}
+      //     onMenuSelect={props.onMenuSelect}
+      //     onMenuDeselect={props.onMenuDeselect}
+      //     onPopupScroll={props.onPopupScroll}
+      //     value={props.value}
+      //     backfillValue={props.backfillValue}
+      //     firstActiveValue={props.firstActiveValue}
+      //     defaultActiveFirstOption={props.defaultActiveFirstOption}
+      //     dropdownMenuStyle={props.dropdownMenuStyle}
+      //   />
+      // );
+      popupElement = this.props.renderMenu({
+        menuItems: props.options,
+        onPopupFocus,
+        multiple,
+        inputValue,
+        visible,
+        onMenuSelect: props.onMenuSelect,
+        onMenuDeselect: props.onMenuDeselect,
+        onPopupScroll: props.onPopupScroll,
+        value: props.value,
+        item: this,
+      });
+    } else {
+      popupElement = this.getDropdownElement({
+        menuItems: props.options,
+        onPopupFocus,
+        multiple,
+        inputValue,
+        visible,
+      });
+    }
     let hideAction;
     if (disabled) {
       hideAction = [];
